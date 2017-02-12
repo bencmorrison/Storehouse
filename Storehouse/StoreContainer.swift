@@ -17,8 +17,8 @@ public typealias StoreContainerString = StoreContainer<String>
 public typealias StoreContainerCharacter = StoreContainer<Character>
 
 public final class StoreContainer<ValueType:DataStorable> {
-    public fileprivate(set) var name: String
-    public fileprivate(set) var value: ValueType
+    public var name: String
+    public var value: ValueType
     weak public internal(set) var storehouse: Storehouse? = nil
 
     init(name: String, value: ValueType) {

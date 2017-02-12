@@ -62,5 +62,6 @@ public final class Storehouse {
 
     public func demolishStorehouse() throws {
         try db.dropTable()
+
     }
 }
