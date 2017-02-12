@@ -25,7 +25,7 @@ catch {
 
 ##### Getting data from the Storehouse
 ```swift
-let container: StoreContainerString
+let container: StoreContainerString?
 do {
    container = storehouse.get(containerNamed: "Character Fact")
 }
@@ -33,12 +33,21 @@ catch {
     print("Something went wrong: \(error)")
 }
 
-print("Fun Overwatch Character Fact: \(container.value)")
+guard let fact = container?.value else {
+   return
+}
+
+print("Fun Overwatch Character Fact: \(fact)")
 ```
 
 ##### Removing data from Storehouse
 ```swift
-storehouse.bin(container: container)
+do {
+    try storehouse.bin(container: container)
+}
+catch {
+    print("Something went wrong: \(error)")
+}
 ```
 
 ##### Delete the Storehouse?
@@ -59,3 +68,14 @@ The following types already support the `DataStorable` protocol for convenience:
 * `Double`    as `StoreContainerDouble`)
 * `String`    as `StoreContainerString`)
 * `Character` as `StoreContainerCharacter`)
+
+I want to support Arrays and the like out of the box, but that is slightly more complicated, not knowing types at this time. However, I might rejigger the `StoreContainer` to allow us to use `NSCopying` or `DataStorable`.
+
+##### The DataStorable Protocol
+It is pretty simple.
+```swift
+public protocol DataStorable {
+    var data: Data? { get }
+    init?(data: Data)
+}
+```
